@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "baseUrl": "./src",
+    "paths": {
+      "~/src/*": ["./src/*"]
+    },
+    "typeRoots": [
+      "node_modules/@types",
+      "node_module/phaser/types"
+    ]
+  },
+  "include": ["src/**/*"]
+}

@@ -1,21 +1,21 @@
 import * as Phaser from 'phaser'
+import GameScene from './scenes/Game'
 
-const preload = () => {}
-const create = () => {
-//  this.add.line(0, 0, 600, 500, 0xfffff, 1)
-}
-const update = () => {}
-
-const config = {
+const config : Phaser.Types.Core.GameConfig = {
   parent: 'phaser',
-  width: 600,
-  height: 500,
+  width: 900,
+  height: 700,
+  backgroundColor: 0xffaaaa,
   type: Phaser.AUTO,
-  scene: {
-    preload,
-    create,
-    update
-  }
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: {
+        y: 0
+      }
+    }
+  },
+  scene: GameScene
 }
 
 const game = new Phaser.Game(config)
