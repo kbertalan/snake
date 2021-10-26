@@ -1,24 +1,18 @@
 import * as Phaser from 'phaser'
+import Snake, { BodyPart } from '../Snake'
 
 export const GAME_SCENE = 'Game'
 
 class GameScene extends Phaser.Scene {
     cursors: Phaser.Types.Input.Keyboard.CursorKeys
-    snake: Phaser.GameObjects.Rectangle
-    lives: boolean
+    snake: Snake<Phaser.GameObjects.Rectangle>
 
     preload() {
 
     }
 
     create() {
-        this.lives = true
-        this.snake = this.add.rectangle(10, 10, 30, 30, 0xffffff, 1)
-        this.snake.setOrigin(0,0)
-        this.physics.add.existing(this.snake);
-
-        const snakeBody = this.snake.body as Phaser.Physics.Arcade.Body
-        snakeBody.setCollideWorldBounds(true, 0, 0, true)
+        this.snake = new Snake(this, 300, 250)
 
         this.physics.world.on('worldbounds', this.handleSnakeWorldCollision, this)
 
@@ -26,38 +20,30 @@ class GameScene extends Phaser.Scene {
     }
 
     handleSnakeWorldCollision(body: Phaser.Physics.Arcade.Body, up: boolean, down: boolean, left: boolean, rigth: boolean) {
-        if ( body === this.snake.body ) {
-            this.lives = false
-            this.snake.fillColor = 0x000000
+        if ( this.snake.matches( part => part.body.body === body) ) {
+            this.snake.die()
         }
     }
 
     update() {
-        if (this.lives) {
+        if (this.snake.alive) {
             this.handleCursors()
         }
-        if (this.cursors.space.isDown && !this.lives) {
-            this.lives = true
-            this.snake.fillColor = 0xffffff
-        }
+        this.snake.update()
     }
 
     private handleCursors() {
         if (this.cursors.right.isDown) {
-            this.snake.body.velocity.x = 100
-            this.snake.body.velocity.y = 0
+            this.snake.turnRight()
         }
         if (this.cursors.left.isDown) {
-            this.snake.body.velocity.x = -100
-            this.snake.body.velocity.y = 0
+            this.snake.turnLeft()
         }
         if (this.cursors.up.isDown) {
-            this.snake.body.velocity.y = -100
-            this.snake.body.velocity.x = 0
+            this.snake.turnUp()
         }
         if (this.cursors.down.isDown) {
-            this.snake.body.velocity.y = 100
-            this.snake.body.velocity.x = 0
+            this.snake.turnDown()
         }
     }
 }
