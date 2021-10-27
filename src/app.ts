@@ -3,8 +3,8 @@ import GameScene from './scenes/Game'
 
 const config : Phaser.Types.Core.GameConfig = {
   parent: 'phaser',
-  width: 900,
-  height: 700,
+  width: 800,
+  height: 600,
   backgroundColor: 0xffaaaa,
   type: Phaser.AUTO,
   physics: {
@@ -20,3 +20,9 @@ const config : Phaser.Types.Core.GameConfig = {
 
 export default new Phaser.Game(config)
 
+// parcel dev hot reload
+if (module.hot) {
+  module.hot.dispose(() => {
+    document.getElementById('phaser').innerHTML = ''
+  })
+}

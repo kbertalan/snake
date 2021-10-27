@@ -97,18 +97,13 @@ class Snake<T> {
     }
 
     changeSnakePart(index: number, part: BodyPart, previous?: BodyPart) {
-        const farEnough = previous && Math.abs(previous.x - part.x + previous.y - part.y) > 30
         const newPart = {
             head: part.head,
             x: previous
-                ? farEnough
                 ? previous.x
-                : part.x
                 : part.x + this._direction.x,
             y: previous 
-                ? farEnough
-                ? previous.y
-                : part.y 
+                ? previous.y 
                 : part.y + this._direction.y,
             body: part.body,
         }
